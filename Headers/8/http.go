@@ -45,7 +45,32 @@ func updateUser(baseURL, id, apiKey string, data User) (User, error) {
 	return updatedUser, nil
 }
 
-/*func getUserById(baseURL, id, apiKey string) (User, error) {
+func getUserById(baseURL, id, apiKey string) (User, error) {
 	fullURL := baseURL + "/" + id
+
+	req, err := http.NewRequest(http.MethodGet, fullURL, nil)
+	if err != nil {
+		return User{}, fmt.Errorf("error creating request: %v", err)
+	}
+
+	req.Header.Set("Authorization", "Bearer "+apiKey)
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return User{}, fmt.Errorf("error sending request: %v", err)
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return User{}, fmt.Errorf("error: received non-OK status code: %d", resp.StatusCode)
+	}
+
+	var newUser User
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(&newUser)
+	if err != nil {
+		return User{}, fmt.Errorf("error decoding response data: %v", err)
+	}
+	return newUser, nil
 }
-*/

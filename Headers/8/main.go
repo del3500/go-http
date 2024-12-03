@@ -35,11 +35,12 @@ func main() {
 
 	fmt.Printf("updating user with id: %s\n", userData.ID)
 	userData.Role = "Senior Backend Developer"
-	userData.Experience = 7
+	userData.Experience = 20
 	userData.Remote = true
 	userData.User.Name = "ck"
 
-	updatedUser, err := updateUser(baseURL, userId, apiKey, userData)
+	apiKey2 := generateKey()
+	updatedUser, err := updateUser(baseURL, userId, apiKey2, userData)
 	if err != nil {
 		fmt.Println(err)
 		return
